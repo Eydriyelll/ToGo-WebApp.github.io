@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | ToGo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="page-loader">
+        <div class="spinner"></div>
+    </div>
+
+    <script type="module">
+        import { checkAuth } from "./js/auth.js";
+        
+        // Check if user is authenticated
+        checkAuth().catch(() => {
+            window.location.href = "login.html"; // Redirect to login if not authenticated
+        });
+    </script>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fas fa-calendar-check"></i>
+                <span>ToGo</span>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="schedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+                <li><a href="tasks.html"><i class="fas fa-tasks"></i> Tasks</a></li>
+                <li><a href="about.html" class="active"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><button id="logout" class="btn"><i class="fas fa-sign-out-alt"></i> Logout</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1><i class="fas fa-info-circle"></i> About ToGo</h1>
+                <p>Learn more about our scheduling app</p>
+            </div>
+        </section>
+
+        <section class="about-section">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-image">
+                        <img src="img/about-illustration.svg" alt="About Illustration">
+                    </div>
+                    <div class="about-text">
+                        <h2>Our Mission</h2>
+                        <p>ToGo is designed to help students efficiently manage their time by organizing tasks, deadlines, and class schedules. With features like task prioritization, deadline notifications, and schedule tracking, our goal is to improve student productivity and reduce stress.</p>
+                        
+                        <h2>Key Features</h2>
+                        <ul class="feature-list-about">
+                            <li>
+                                <i class="fas fa-book"></i>
+                                <div>
+                                    <h3>Class Details Organizer</h3>
+                                    <p>Store and access class information such as room numbers, teacher names, and subject details.</p>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-tags"></i>
+                                <div>
+                                    <h3>Task Categorization</h3>
+                                    <p>Label tasks as "Optional," "Urgent," or "Important" for better prioritization.</p>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-bell"></i>
+                                <div>
+                                    <h3>Deadline & Class Notifications</h3>
+                                    <p>Receive alerts for upcoming deadlines and class reminders.</p>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-sort-amount-up"></i>
+                                <div>
+                                    <h3>Priority Suggestions</h3>
+                                    <p>Get smart suggestions for task priorities based on deadlines and importance.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="about-cards">
+                    <div class="about-card">
+                        <div class="card-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <h3>Cloud Sync</h3>
+                        <p>Your data is securely stored in the cloud, allowing you to access your schedule and tasks from any device. Simply log in with your account and all your information will be available.</p>
+                    </div>
+                    <div class="about-card">
+                        <div class="card-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <h3>Privacy & Security</h3>
+                        <p>We take your privacy seriously. Your data is encrypted and stored securely. We never share your personal information with third parties.</p>
+                    </div>
+                    <div class="about-card">
+                        <div class="card-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>Responsive Design</h3>
+                        <p>ToGo works seamlessly across all your devices - desktop, tablet, and mobile. The responsive design ensures a great user experience no matter what device you're using.</p>
+                    </div>
+                </div>
+
+                <div class="team-section">
+                    <h2>Our Team</h2>
+                    <p>ToGo was developed by Group 9 as part of a project to help students better manage their academic schedules and tasks.</p>
+                    <div class="team-members">
+                        <div class="team-member">
+                            <div class="member-avatar">
+                                <img src="img/avatar-placeholder.svg" alt="Team Member">
+                            </div>
+                            <h3>Team Member 1</h3>
+                            <p>Lead Developer</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-avatar">
+                                <img src="img/avatar-placeholder.svg" alt="Team Member">
+                            </div>
+                            <h3>Team Member 2</h3>
+                            <p>UI/UX Designer</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-avatar">
+                                <img src="img/avatar-placeholder.svg" alt="Team Member">
+                            </div>
+                            <h3>Team Member 3</h3>
+                            <p>Backend Developer</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-avatar">
+                                <img src="img/avatar-placeholder.svg" alt="Team Member">
+                            </div>
+                            <h3>Team Member 4</h3>
+                            <p>QA Tester</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>ToGo</span>
+                </div>
+                <div class="footer-links">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="schedule.html">Schedule</a></li>
+                        <li><a href="tasks.html">Tasks</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ToGo. All Rights Reserved To Group 9</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification System -->
+    <div class="notification-container" id="notification-container"></div>
+
+    <script type="module" src="js/common.js"></script>
+</body>
+</html>
+

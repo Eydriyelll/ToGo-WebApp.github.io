@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule | ToGo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="page-loader">
+        <div class="spinner"></div>
+    </div>
+
+    <script type="module">
+        import { checkAuth } from "./js/auth.js";
+        
+        // Check if user is authenticated
+        checkAuth().catch(() => {
+            window.location.href = "login.html"; // Redirect to login if not authenticated
+        });
+    </script>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fas fa-calendar-check"></i>
+                <span>ToGo</span>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="schedule.html" class="active"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+                <li><a href="tasks.html"><i class="fas fa-tasks"></i> Tasks</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><button id="logout" class="btn"><i class="fas fa-sign-out-alt"></i> Logout</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1><i class="fas fa-calendar-alt"></i> My Schedule</h1>
+                <p>Manage your weekly class schedule</p>
+            </div>
+        </section>
+
+        <section class="schedule-section">
+            <div class="container">
+                <div class="schedule-controls">
+                    <div class="control-buttons">
+                        <button id="addRow" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Add Class
+                        </button>
+                        <button id="editSchedule" class="btn btn-secondary">
+                            <i class="fas fa-edit"></i> Edit Schedule
+                        </button>
+                        <button id="saveSchedule" class="btn btn-success" disabled>
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                    <div class="view-options">
+                        <button class="view-btn active" data-view="week">
+                            <i class="fas fa-calendar-week"></i> Week View
+                        </button>
+                        <button class="view-btn" data-view="day">
+                            <i class="fas fa-calendar-day"></i> Day View
+                        </button>
+                    </div>
+                </div>
+
+                <div class="schedule-container">
+                    <div class="view week-view active">
+                        <div class="schedule-wrapper">
+                            <table class="schedule-table">
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>Monday</th>
+                                        <th>Tuesday</th>
+                                        <th>Wednesday</th>
+                                        <th>Thursday</th>
+                                        <th>Friday</th>
+                                        <th class="action-column">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="schedule-body">
+                                    <!-- Schedule will be loaded dynamically -->
+                                    <tr class="skeleton-row">
+                                        <td class="skeleton-cell"></td>
+                                        <td class="skeleton-cell"></td>
+                                        <td class="skeleton-cell"></td>
+                                        <td class="skeleton-cell"></td>
+                                        <td class="skeleton-cell"></td>
+                                        <td class="skeleton-cell"></td>
+                                        <td class="skeleton-cell"></td>
+                                    </tr>
+                                    <tr class="skeleton-row">
+                                        <td class="skeleton-cell"></td>
+                                        <td class="skeleton-cell"></td>
+                                        <td class="skeleton-cell"></td>
+                                        <td class="skeleton-cell"></td>
+                                        <td class="skeleton-cell"></td>
+                                        <td class="skeleton-cell"></td>
+                                        <td class="skeleton-cell"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="view day-view">
+                        <div class="day-selector">
+                            <button class="day-btn active" data-day="monday">Monday</button>
+                            <button class="day-btn" data-day="tuesday">Tuesday</button>
+                            <button class="day-btn" data-day="wednesday">Wednesday</button>
+                            <button class="day-btn" data-day="thursday">Thursday</button>
+                            <button class="day-btn" data-day="friday">Friday</button>
+                        </div>
+                        <div class="day-schedule-container">
+                            <!-- Day schedule will be loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Class Details Modal -->
+        <div class="modal" id="class-details-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-book"></i> Class Details</h3>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="class-details-form">
+                        <div class="form-group">
+                            <label for="class-name">Class Name</label>
+                            <input type="text" id="class-name" placeholder="Enter class name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="class-time">Time</label>
+                            <input type="text" id="class-time" placeholder="e.g. 9:00 - 10:30" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="class-room">Room Number</label>
+                            <input type="text" id="class-room" placeholder="Enter room number">
+                        </div>
+                        <div class="form-group">
+                            <label for="class-teacher">Teacher</label>
+                            <input type="text" id="class-teacher" placeholder="Enter teacher name">
+                        </div>
+                        <div class="form-group">
+                            <label for="class-color">Color</label>
+                            <input type="color" id="class-color" value="#9d6b53">
+                        </div>
+                        <div class="form-group">
+                            <label for="class-notes">Notes</label>
+                            <textarea id="class-notes" placeholder="Add any additional notes"></textarea>
+                        </div>
+                        <input type="hidden" id="class-day">
+                        <input type="hidden" id="class-row-index">
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-danger" id="delete-class">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>ToGo</span>
+                </div>
+                <div class="footer-links">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="schedule.html">Schedule</a></li>
+                        <li><a href="tasks.html">Tasks</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ToGo. All Rights Reserved To Group 9</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification System -->
+    <div class="notification-container" id="notification-container"></div>
+
+    <script type="module" src="js/schedule.js"></script>
+    <script type="module" src="js/common.js"></script>
+</body>
+</html>
+

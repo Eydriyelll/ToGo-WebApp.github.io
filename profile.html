@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | ToGo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="page-loader">
+        <div class="spinner"></div>
+    </div>
+
+    <script type="module">
+        import { checkAuth } from "./js/auth.js";
+        
+        // Check if user is authenticated
+        checkAuth().catch(() => {
+            window.location.href = "login.html";
+        });
+    </script>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fas fa-calendar-check"></i>
+                <span>ToGo</span>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="schedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+                <li><a href="tasks.html"><i class="fas fa-tasks"></i> Tasks</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><a href="profile.html" class="active"><i class="fas fa-user"></i> Profile</a></li>
+                <li><button id="logout" class="btn"><i class="fas fa-sign-out-alt"></i> Logout</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1><i class="fas fa-user-circle"></i> My Profile</h1>
+                <p>Manage your account settings and preferences</p>
+            </div>
+        </section>
+
+        <section class="profile-section">
+            <div class="container">
+                <div class="profile-content">
+                    <div class="profile-sidebar">
+                        <div class="profile-picture-container">
+                            <div class="profile-picture">
+                                <img id="profile-image" src="/placeholder.svg" alt="Profile Picture">
+                                <div class="profile-picture-overlay">
+                                    <i class="fas fa-camera"></i>
+                                    <span>Change Photo</span>
+                                </div>
+                            </div>
+                            <input type="file" id="profile-picture-input" accept="image/*" style="display: none;">
+                        </div>
+                        <div class="profile-info">
+                            <h2 id="display-name">Loading...</h2>
+                            <p id="user-email">loading@example.com</p>
+                            <p class="member-since">Member since: <span id="member-since">Loading...</span></p>
+                        </div>
+                    </div>
+
+                    <div class="profile-main">
+                        <div class="profile-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-user-edit"></i> Edit Profile</h3>
+                            </div>
+                            <div class="card-body">
+                                <form id="profile-form" class="profile-form">
+                                    <div class="form-group">
+                                        <label for="username">Display Name</label>
+                                        <input type="text" id="username" placeholder="Enter your display name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="bio">Bio</label>
+                                        <textarea id="bio" rows="4" placeholder="Tell us about yourself"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i> Save Changes
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="profile-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-bell"></i> Notification Settings</h3>
+                            </div>
+                            <div class="card-body">
+                                <form id="notification-form" class="notification-form">
+                                    <div class="form-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="email-notifications" checked>
+                                            <span>Email Notifications</span>
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="deadline-reminders" checked>
+                                            <span>Deadline Reminders</span>
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="class-reminders" checked>
+                                            <span>Class Reminders</span>
+                                        </label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i> Save Preferences
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="profile-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-palette"></i> Appearance</h3>
+                            </div>
+                            <div class="card-body">
+                                <form id="appearance-form" class="appearance-form">
+                                    <div class="form-group">
+                                        <label>Theme</label>
+                                        <div class="theme-options">
+                                            <label class="theme-option">
+                                                <input type="radio" name="theme" value="light" checked>
+                                                <span class="theme-preview light">
+                                                    <i class="fas fa-sun"></i>
+                                                    Light
+                                                </span>
+                                            </label>
+                                            <label class="theme-option">
+                                                <input type="radio" name="theme" value="dark">
+                                                <span class="theme-preview dark">
+                                                    <i class="fas fa-moon"></i>
+                                                    Dark
+                                                </span>
+                                            </label>
+                                            <label class="theme-option">
+                                                <input type="radio" name="theme" value="system">
+                                                <span class="theme-preview system">
+                                                    <i class="fas fa-desktop"></i>
+                                                    System
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i> Save Preferences
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="profile-card danger-zone">
+                            <div class="card-header">
+                                <h3><i class="fas fa-exclamation-triangle"></i> Danger Zone</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="danger-action">
+                                    <div>
+                                        <h4>Delete Account</h4>
+                                        <p>Permanently delete your account and all associated data.</p>
+                                    </div>
+                                    <button id="delete-account" class="btn btn-danger">
+                                        <i class="fas fa-trash-alt"></i> Delete Account
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Delete Account Confirmation Modal -->
+        <div class="modal" id="delete-account-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Delete Account</h3>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+                    <p>Please type your email to confirm:</p>
+                    <input type="email" id="confirm-email" placeholder="Enter your email">
+                    <div class="modal-actions">
+                        <button class="btn btn-secondary" id="cancel-delete">Cancel</button>
+                        <button class="btn btn-danger" id="confirm-delete" disabled>
+                            <i class="fas fa-trash-alt"></i> Delete Account
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>ToGo</span>
+                </div>
+                <div class="footer-links">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="schedule.html">Schedule</a></li>
+                        <li><a href="tasks.html">Tasks</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ToGo. All Rights Reserved To Group 9</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification System -->
+    <div class="notification-container" id="notification-container"></div>
+
+    <script type="module">
+        import { auth, db, storage } from "./js/firebase-config.js";
+        import { updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { doc, getDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+        import { showNotification } from "./js/notifications.js";
+        
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Hide loader
+            setTimeout(() => {
+                document.querySelector('.page-loader').classList.add('loaded');
+            }, 500);
+
+            const user = auth.currentUser;
+            if (!user) return;
+
+            // Load user profile data
+            const userDoc = await getDoc(doc(db, "users", user.uid));
+            const userData = userDoc.data();
+
+            // Update profile elements
+            document.getElementById('display-name').textContent = user.displayName || 'Anonymous';
+            document.getElementById('user-email').textContent = user.email;
+            document.getElementById('username').value = user.displayName || '';
+            document.getElementById('bio').value = userData?.bio || '';
+            document.getElementById('member-since').textContent = new Date(userData?.createdAt?.toDate()).toLocaleDateString();
+
+            // Load profile picture
+            if (user.photoURL) {
+                document.getElementById('profile-image').src = user.photoURL;
+            }
+
+            // Profile picture upload
+            const profilePictureContainer = document.querySelector('.profile-picture-container');
+            const profilePictureInput = document.getElementById('profile-picture-input');
+
+            profilePictureContainer.addEventListener('click', () => {
+                profilePictureInput.click();
+            });
+
+            profilePictureInput.addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                try {
+                    // Show loading state
+                    profilePictureContainer.classList.add('loading');
+                    showNotification('Uploading profile picture...', 'info');
+
+                    // Upload image to Firebase Storage
+                    const storageRef = ref(storage, `profile-pictures/${user.uid}`);
+                    await uploadBytes(storageRef, file);
+
+                    // Get download URL
+                    const downloadURL = await getDownloadURL(storageRef);
+
+                    // Update user profile
+                    await updateProfile(user, {
+                        photoURL: downloadURL
+                    });
+
+                    // Update UI
+                    document.getElementById('profile-image').src = downloadURL;
+                    showNotification('Profile picture updated successfully!', 'success');
+                } catch (error) {
+                    console.error('Error uploading profile picture:', error);
+                    showNotification('Failed to update profile picture', 'error');
+                } finally {
+                    profilePictureContainer.classList.remove('loading');
+                }
+            });
+
+            // Profile form submission
+            const profileForm = document.getElementById('profile-form');
+            profileForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const newUsername = document.getElementById('username').value.trim();
+                const newBio = document.getElementById('bio').value.trim();
+
+                try {
+                    // Update display name
+                    await updateProfile(user, {
+                        displayName: newUsername
+                    });
+
+                    // Update user document
+                    await updateDoc(doc(db, "users", user.uid), {
+                        name: newUsername,
+                        bio: newBio,
+                        updatedAt: new Date()
+                    });
+
+                    // Update UI
+                    document.getElementById('display-name').textContent = newUsername;
+                    showNotification('Profile updated successfully!', 'success');
+                } catch (error) {
+                    console.error('Error updating profile:', error);
+                    showNotification('Failed to update profile', 'error');
+                }
+            });
+
+            // Notification preferences
+            const notificationForm = document.getElementById('notification-form');
+            notificationForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const emailNotifications = document.getElementById('email-notifications').checked;
+                const deadlineReminders = document.getElementById('deadline-reminders').checked;
+                const classReminders = document.getElementById('class-reminders').checked;
+
+                try {
+                    await updateDoc(doc(db, "users", user.uid), {
+                        notifications: {
+                            email: emailNotifications,
+                            deadlines: deadlineReminders,
+                            classes: classReminders
+                        },
+                        updatedAt: new Date()
+                    });
+
+                    showNotification('Notification preferences updated!', 'success');
+                } catch (error) {
+                    console.error('Error updating notification preferences:', error);
+                    showNotification('Failed to update preferences', 'error');
+                }
+            });
+
+            // Theme preferences
+            const appearanceForm = document.getElementById('appearance-form');
+            appearanceForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const theme = document.querySelector('input[name="theme"]:checked').value;
+
+                try {
+                    await updateDoc(doc(db, "users", user.uid), {
+                        preferences: {
+                            theme: theme
+                        },
+                        updatedAt: new Date()
+                    });
+
+                    showNotification('Appearance preferences updated!', 'success');
+                } catch (error) {
+                    console.error('Error updating appearance preferences:', error);
+                    showNotification('Failed to update preferences', 'error');
+                }
+            });
+
+            // Delete account
+            const deleteAccountBtn = document.getElementById('delete-account');
+            const deleteAccountModal = document.getElementById('delete-account-modal');
+            const cancelDeleteBtn = document.getElementById('cancel-delete');
+            const confirmDeleteBtn = document.getElementById('confirm-delete');
+            const confirmEmailInput = document.getElementById('confirm-email');
+
+            deleteAccountBtn.addEventListener('click', () => {
+                deleteAccountModal.classList.add('active');
+            });
+
+            cancelDeleteBtn.addEventListener('click', () => {
+                deleteAccountModal.classList.remove('active');
+                confirmEmailInput.value = '';
+                confirmDeleteBtn.disabled = true;
+            });
+
+            confirmEmailInput.addEventListener('input', () => {
+                confirmDeleteBtn.disabled = confirmEmailInput.value !== user.email;
+            });
+
+            confirmDeleteBtn.addEventListener('click', async () => {
+                try {
+                    // Delete profile picture from storage
+                    if (user.photoURL) {
+                        const storageRef = ref(storage, `profile-pictures/${user.uid}`);
+                        await deleteObject(storageRef);
+                    }
+
+                    // Delete user document from Firestore
+                    await deleteDoc(doc(db, "users", user.uid));
+
+                    // Delete user account
+                    await user.delete();
+
+                    // Redirect to login page
+                    window.location.href = "login.html";
+                } catch (error) {
+                    console.error('Error deleting account:', error);
+                    showNotification('Failed to delete account', 'error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

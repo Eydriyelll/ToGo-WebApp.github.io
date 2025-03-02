@@ -1,0 +1,193 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 41 100% 94%;
+    --foreground: 20 10% 37%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 20 10% 37%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 10% 37%;
+
+    --primary: 35 19% 56%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 35 27% 72%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 35 27% 72%;
+    --muted-foreground: 20 10% 37%;
+
+    --accent: 35 40% 83%;
+    --accent-foreground: 20 10% 37%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142.1 76.2% 36.3%;
+    --success-foreground: 355.7 100% 97.3%;
+
+    --border: 35 27% 72%;
+    --input: 35 27% 72%;
+    --ring: 35 19% 56%;
+
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 20 10% 12%;
+    --foreground: 35 40% 83%;
+
+    --card: 20 10% 17%;
+    --card-foreground: 35 40% 83%;
+
+    --popover: 20 10% 17%;
+    --popover-foreground: 35 40% 83%;
+
+    --primary: 35 19% 56%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 20 10% 27%;
+    --secondary-foreground: 35 40% 83%;
+
+    --muted: 20 10% 27%;
+    --muted-foreground: 35 27% 72%;
+
+    --accent: 20 10% 27%;
+    --accent-foreground: 35 40% 83%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 35 40% 83%;
+
+    --success: 142.1 70.6% 45.3%;
+    --success-foreground: 144.9 80.4% 10%;
+
+    --border: 20 10% 27%;
+    --input: 20 10% 27%;
+    --ring: 35 19% 56%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Task Categories */
+.task-urgent {
+  @apply border-l-4 border-destructive;
+}
+
+.task-important {
+  @apply border-l-4 border-[#A79277];
+}
+
+.task-optional {
+  @apply border-l-4 border-[#D1BB9E];
+}
+
+.task-completed {
+  @apply border-l-4 border-[#EAD8C0] opacity-60;
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #a79277;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8a7660;
+}
+
+/* Task List Styles */
+.task-list {
+  @apply space-y-2;
+}
+
+.task-item {
+  @apply p-4 rounded-lg bg-white shadow-sm hover:shadow-md transition-all duration-200
+         flex items-center justify-between gap-4 animate-slide-in;
+}
+
+.task-checkbox {
+  @apply w-5 h-5 rounded border-2 border-[#A79277]
+         checked:bg-[#A79277] checked:border-[#A79277]
+         focus:outline-none focus:ring-2 focus:ring-[#A79277];
+}
+
+/* Schedule Table Styles */
+.schedule-table {
+  @apply w-full border-collapse bg-white rounded-lg overflow-hidden shadow-sm;
+}
+
+.schedule-table th {
+  @apply px-4 py-3 bg-[#A79277] text-white font-medium text-left;
+}
+
+.schedule-table td {
+  @apply px-4 py-3 border-b border-[#EAD8C0];
+}
+
+.schedule-table tr:hover td {
+  @apply bg-[#FFF2E1];
+}
+
+/* Profile Card Styles */
+.profile-card {
+  @apply bg-white rounded-lg shadow-md overflow-hidden;
+}
+
+.profile-header {
+  @apply bg-[#A79277] text-white p-6;
+}
+
+.profile-content {
+  @apply p-6;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .task-item {
+    @apply flex-col items-start;
+  }
+
+  .task-actions {
+    @apply w-full justify-end;
+  }
+}
+

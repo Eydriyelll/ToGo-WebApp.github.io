@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks | ToGo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="page-loader">
+        <div class="spinner"></div>
+    </div>
+
+    <script type="module">
+        import { checkAuth } from "./js/auth.js";
+        
+        // Check if user is authenticated
+        checkAuth().catch(() => {
+            window.location.href = "login.html"; // Redirect to login if not authenticated
+        });
+    </script>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fas fa-calendar-check"></i>
+                <span>ToGo</span>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="schedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+                <li><a href="tasks.html" class="active"><i class="fas fa-tasks"></i> Tasks</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><button id="logout" class="btn"><i class="fas fa-sign-out-alt"></i> Logout</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1><i class="fas fa-tasks"></i> My Tasks</h1>
+                <p>Manage your tasks and deadlines</p>
+            </div>
+        </section>
+
+        <section class="tasks-section">
+            <div class="container">
+                <div class="tasks-controls">
+                    <div class="search-filter">
+                        <div class="search-box">
+                            <input type="text" id="task-search" placeholder="Search tasks...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="filter-dropdown">
+                            <button class="filter-btn">
+                                <i class="fas fa-filter"></i> Filter
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="filter-menu">
+                                <label>
+                                    <input type="checkbox" value="all" checked> All
+                                </label>
+                                <label>
+                                    <input type="checkbox" value="urgent"> Urgent
+                                </label>
+                                <label>
+                                    <input type="checkbox" value="important"> Important
+                                </label>
+                                <label>
+                                    <input type="checkbox" value="normal"> Normal
+                                </label>
+                                <label>
+                                    <input type="checkbox" value="optional"> Optional
+                                </label>
+                            </div>
+                        </div>
+                        <div class="sort-dropdown">
+                            <button class="sort-btn">
+                                <i class="fas fa-sort"></i> Sort
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="sort-menu">
+                                <label>
+                                    <input type="radio" name="sort" value="deadline-asc" checked> Deadline (Earliest)
+                                </label>
+                                <label>
+                                    <input type="radio" name="sort" value="deadline-desc"> Deadline (Latest)
+                                </label>
+                                <label>
+                                    <input type="radio" name="sort" value="priority"> Priority
+                                </label>
+                                <label>
+                                    <input type="radio" name="sort" value="name-asc"> Name (A-Z)
+                                </label>
+                                <label>
+                                    <input type="radio" name="sort" value="name-desc"> Name (Z-A)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="add-task-btn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Task
+                    </button>
+                </div>
+
+                <div class="tasks-container">
+                    <div class="tasks-tabs">
+                        <button class="tab-btn active" data-tab="pending">Pending</button>
+                        <button class="tab-btn" data-tab="completed">Completed</button>
+                    </div>
+
+                    <div class="tab-content active" id="pending-tab">
+                        <div class="task-list" id="pending-task-list">
+                            <!-- Pending tasks will be loaded dynamically -->
+                            <div class="skeleton-loader">
+                                <div class="skeleton-item"></div>
+                                <div class="skeleton-item"></div>
+                                <div class="skeleton-item"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="completed-tab">
+                        <div class="task-list" id="completed-task-list">
+                            <!-- Completed tasks will be loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Task Modal -->
+        <div class="modal" id="task-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="task-modal-title"><i class="fas fa-plus-circle"></i> Add New Task</h3>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="task-form">
+                        <div class="form-group">
+                            <label for="task-name">Task Name</label>
+                            <input type="text" id="task-name" placeholder="Enter task name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="task-description">Description</label>
+                            <textarea id="task-description" placeholder="Enter task description"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="task-deadline">Deadline</label>
+                                <input type="date" id="task-deadline" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="task-priority">Priority</label>
+                                <select id="task-priority" required>
+                                    <option value="normal">Normal</option>
+                                    <option value="important">Important</option>
+                                    <option value="urgent">Urgent</option>
+                                    <option value="optional">Optional</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="task-related-class">Related Class (Optional)</label>
+                            <select id="task-related-class">
+                                <option value="">None</option>
+                                <!-- Classes will be loaded dynamically -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="task-reminder">Set Reminder</label>
+                            <select id="task-reminder">
+                                <option value="none">None</option>
+                                <option value="same-day">Same day</option>
+                                <option value="1-day">1 day before</option>
+                                <option value="2-days">2 days before</option>
+                                <option value="1-week">1 week before</option>
+                            </select>
+                        </div>
+                        <input type="hidden" id="task-id">
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Task</button>
+                            <button type="button" class="btn btn-danger" id="delete-task">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>ToGo</span>
+                </div>
+                <div class="footer-links">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="schedule.html">Schedule</a></li>
+                        <li><a href="tasks.html">Tasks</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ToGo. All Rights Reserved To Group 9</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification System -->
+    <div class="notification-container" id="notification-container"></div>
+
+    <script type="module" src="js/tasks.js"></script>
+    <script type="module" src="js/common.js"></script>
+</body>
+</html>
+
